@@ -1,0 +1,36 @@
+import xgboost as xgb
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+# Breast Cancer датасетын жүктейміз
+data = load_breast_cancer()
+X, y = data.data, data.target
+
+# Деректерді жаттығу және сынақ жиынтықтарына бөлу
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# DMatrix объектін құру
+dtrain = xgb.DMatrix(X_train, label=y_train)
+dtest = xgb.DMatrix(X_test, label=y_test)
+
+# Модель параметрлерін орнату
+params = {
+    'objective': 'binary:logistic',  # Екілік жіктеу міндеті
+    'max_depth': 3,                  # Ағаштар тереңдігі
+    'eta': 0.1                        # оқу қадамы
+}
+
+# Модельді оқыту
+num_round = 100
+model = xgb.train(params, dtrain, num_round)
+
+# Сынақ жиынтығындағы болжам
+y_pred = model.predict(dtest)
+
+# Ықтималдықтарды екілік болжамдарға түрлендіру
+y_pred_binary = [1 if p > 0.5 else 0 for p in y_pred]
+
+# Дәлдікті есептеу
+accuracy = accuracy_score(y_test, y_pred_binary)
+print(f'Модель дәлдігі: {accuracy}')
