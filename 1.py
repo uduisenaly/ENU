@@ -1,27 +1,45 @@
-import pandas as pd
-from sklearn.model_selection import train_test_split
-import xgboost as xgb
+#1
+pulse_min = min (52,75,6,33,189,527,96,12,873)
+print(pulse_min)
+#2
+pulse_max = max (52,75,6,33,189,527,96,12,873)
+print(pulse_max)
+#3
+import numpy as np 
+Calorie_burnage = [52,75,6,33,189,527,96,12,873]
+Average_calorie_burnage = np.mean (Calorie_burnage)
+print (Average_calorie_burnage)
+#4
+import pandas as pd 
+d = {'New_Column_1': [10,20,30,40,70], 'New_Column_1': [40,50,60,90,50],
+'New_Column_3': [70,80,120,10,110]}
+df = pd.DataFrame (dta = d)
+print (df)
+#5
+Array = [3,896,86,73,19,75,765,7815,17,435,52,963]
+print (Array)
+#6
+import sys
+import matplotlib
+matplotlib.use ('Agg')
 
-# Загрузка данных
-data = pd.read_csv('airport_data.csv')
+import pandas aas pdimport matplotlib.pyplot as pyplotfrom scipy import stats
 
-# Подготовка данных
-data['is_north'] = (data['latitude'] > 50).astype(int)
-X = data[['latitude', 'other_features']]
-y = data['is_north']
+full_health_data = pd.read_csv("data.csv", header=0, sep=",")
 
-# Разделение данных
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+x=full_health_data["Average_pulse"]
+x=full_health_data["Calorie_Burnage"]
 
-# Создание и обучение модели XGBoost
-model = xgb.XGBClassifier(n_estimators=100, max_depth=3)
-model.fit(X_train, y_train)
+slope, intercept,r,p,std_err = stats.linregress(x,y)
 
-# Оценка модели
-accuracy = model.score(X_test, y_test)
-print(f'Accuracy: {accuracy}')
+def myfuns (x):
+return slope * x + intercept
+mymodel = list(map(myfunc,x))
 
-# Прогнозирование
-new_data = pd.DataFrame({'latitude': [51.2, 47.1], 'other_features': [values]})
-predictions = model.predict(new_data)
-print(predictions)
+plt.scatter (x,y)
+plt.plot (x, mymodel)
+plt.ylim(ymin=0, ymax=2000)
+plt.xlim(xmin=0, xmax=2000)
+plt.xlabel ("Average_pulse")
+plt.ylabel ("Calorie_Burnage")
+plt.show()
