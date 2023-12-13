@@ -1,27 +1,35 @@
+#1
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import AdaBoostClassifier
 
-# Загрузка данных
-data = pd.read_csv('airport_data.csv')
+full_health_data = pd.read_csv ("data.csv", header=10, sep=",")
 
-# Подготовка данных
-data['is_north'] = (data['latitude'] > 50).astype(int)
-X = data[['latitude', 'other_features']]
-y = data['is_north']
+pd.set_option('display.max_columns',None)
+pd.set_option('display.max_rows',None)
+print(full_health_data.describe())
+#2
+import pandas as pd
+import numpy as np
 
-# Разделение данных
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+full_health_data = pd.read_csv ("data.csv", header=0, sep=",")
 
-# Создание и обучение модели AdaBoost
-model = AdaBoostClassifier(n_estimators=50)
-model.fit(X_train, y_train)
+Max_Pulse = full_health_data["Max_Pulse"]
+percentile10 = np.percentile (Max_Pulse, 25)
 
-# Оценка модели
-accuracy = model.score(X_test, y_test)
-print(f'Accuracy: {accuracy}')
+print(percentile10)
+#3
+import pandas as pd
+import numpy as np
 
-# Прогнозирование
-new_data = pd.DataFrame({'latitude': [51.2, 47.1], 'other_features': [values]})
-predictions = model.predict(new_data)
-print(predictions)
+full_health_data = pd.read_csv ("data.csv", header=0, sep=",")
+
+cv = np.std(full_health_data)*np.mean(full_health_data)
+print(cv)
+#4
+import pandas as pd
+import numpy as np
+
+health_data = pd.read_csv ("data.csv", header=0, sep=",")
+
+var = np.var(health_data)
+
+print(var)
